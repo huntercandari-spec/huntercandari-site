@@ -68,39 +68,26 @@
   if (brandContainer) {
     var brandList = brandContainer.querySelector('ul');
     if (brandList) {
-      // Style for horizontal scrolling only — keep the original Framer CDN logos
+      // Make it horizontal and scrollable — don't touch existing images/DOM
       brandList.style.display = 'flex';
+      brandList.style.flexWrap = 'nowrap';
       brandList.style.gap = '60px';
       brandList.style.width = 'max-content';
-      brandList.style.listStyle = 'none';
       brandList.style.padding = '20px 0';
       brandList.style.margin = '0';
+      brandList.style.listStyle = 'none';
       
-      // Style existing logo items
+      // Each li should not shrink
       brandList.querySelectorAll('li').forEach(function(li) {
         li.style.flexShrink = '0';
-        li.style.opacity = '0.4';
-        li.style.transition = 'opacity 0.3s';
-        li.style.display = 'flex';
-        li.style.alignItems = 'center';
-        li.style.height = '40px';
-        li.addEventListener('mouseenter', function() { this.style.opacity = '0.8'; });
-        li.addEventListener('mouseleave', function() { this.style.opacity = '0.4'; });
-        
-        // Style images inside — make them white logos
-        var img = li.querySelector('img');
-        if (img) {
-          img.style.height = '36px';
-          img.style.width = 'auto';
-          img.style.filter = 'brightness(0) invert(1)';
-        }
       });
       
-      // Duplicate for seamless loop
-      var items = brandList.querySelectorAll('li');
-      var count = items.length;
-      for (var i = 0; i < count; i++) {
-        brandList.appendChild(items[i].cloneNode(true));
+      // Clone children once for seamless loop
+      var children = brandList.children;
+      var childCount = children.length;
+      for (var i = 0; i < childCount; i++) {
+        var clone = children[i].cloneNode(true);
+        brandList.appendChild(clone);
       }
       
       // GSAP marquee
