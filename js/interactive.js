@@ -10,7 +10,8 @@
   styleFix.textContent = '[data-framer-root] > * > * > * { position: relative !important; top: auto !important; }' +
     '[data-framer-root] [style*="position:sticky"] { position: relative !important; }' +
     '.framer-2q3rns-container { position: fixed !important; }' +
-    'html, body { overflow-x: hidden; overflow-y: auto !important; height: auto !important; min-height: 100vh; }';
+    'html, body { overflow-x: hidden; overflow-y: auto !important; height: auto !important; min-height: 100vh; }' +
+    '[data-framer-name="Brand Logos"] img { mix-blend-mode: screen !important; }';
   document.head.appendChild(styleFix);
 
   /* === LENIS SMOOTH SCROLL === */
@@ -90,7 +91,7 @@
         brandList.appendChild(clone);
       }
       
-      // GSAP marquee
+      // GSAP marquee — never pauses
       var totalWidth = brandList.scrollWidth / 2;
       gsap.to(brandList, {
         x: -totalWidth,
@@ -99,10 +100,6 @@
         repeat: -1,
         onRepeat: function() { gsap.set(brandList, { x: 0 }); }
       });
-      
-      // Pause on hover
-      brandList.addEventListener('mouseenter', function() { gsap.globalTimeline.pause(); });
-      brandList.addEventListener('mouseleave', function() { gsap.globalTimeline.play(); });
     }
   }
 
