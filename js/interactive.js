@@ -68,22 +68,7 @@
   if (brandContainer) {
     var brandList = brandContainer.querySelector('ul');
     if (brandList) {
-      // Replace with our real company logos
-      var realLogos = [
-        {name: 'Netflix', file: 'logos/netflix.svg'},
-        {name: 'Spotify', file: 'logos/spotify.svg'},
-        {name: 'Intel', file: 'logos/intel.svg'},
-        {name: 'UMG', file: 'logos/umg.png'},
-        {name: 'FOX Sports', file: 'logos/foxsports.svg'},
-        {name: 'ECHL', file: 'logos/echl.svg'},
-        {name: 'PixelPlay', file: 'logos/pixelplay.svg'},
-        {name: 'InnovateX', file: 'logos/innovatex.svg'},
-        {name: 'LiveWire', file: 'logos/livewire.svg'},
-        {name: 'SoundWave', file: 'logos/soundwave.svg'},
-      ];
-      
-      // Clear existing items and rebuild with real logos
-      brandList.innerHTML = '';
+      // Style for horizontal scrolling only — keep the original Framer CDN logos
       brandList.style.display = 'flex';
       brandList.style.gap = '60px';
       brandList.style.width = 'max-content';
@@ -91,38 +76,38 @@
       brandList.style.padding = '20px 0';
       brandList.style.margin = '0';
       
-      // Create logo items (original + duplicate for seamless loop)
-      for (var loop = 0; loop < 2; loop++) {
-        realLogos.forEach(function(logo) {
-          var li = document.createElement('li');
-          li.style.flexShrink = '0';
-          li.style.opacity = '0.4';
-          li.style.transition = 'opacity 0.3s';
-          li.style.display = 'flex';
-          li.style.alignItems = 'center';
-          li.style.height = '40px';
-          
-          var img = document.createElement('img');
-          img.src = 'assets/' + logo.file;
-          img.alt = logo.name;
+      // Style existing logo items
+      brandList.querySelectorAll('li').forEach(function(li) {
+        li.style.flexShrink = '0';
+        li.style.opacity = '0.4';
+        li.style.transition = 'opacity 0.3s';
+        li.style.display = 'flex';
+        li.style.alignItems = 'center';
+        li.style.height = '40px';
+        li.addEventListener('mouseenter', function() { this.style.opacity = '0.8'; });
+        li.addEventListener('mouseleave', function() { this.style.opacity = '0.4'; });
+        
+        // Style images inside — make them white logos
+        var img = li.querySelector('img');
+        if (img) {
           img.style.height = '36px';
           img.style.width = 'auto';
           img.style.filter = 'brightness(0) invert(1)';
-          
-          li.appendChild(img);
-          brandList.appendChild(li);
-          
-          // Hover effect
-          li.addEventListener('mouseenter', function() { this.style.opacity = '0.8'; });
-          li.addEventListener('mouseleave', function() { this.style.opacity = '0.4'; });
-        });
+        }
+      });
+      
+      // Duplicate for seamless loop
+      var items = brandList.querySelectorAll('li');
+      var count = items.length;
+      for (var i = 0; i < count; i++) {
+        brandList.appendChild(items[i].cloneNode(true));
       }
       
       // GSAP marquee
       var totalWidth = brandList.scrollWidth / 2;
       gsap.to(brandList, {
         x: -totalWidth,
-        duration: 80,
+        duration: 45,
         ease: 'none',
         repeat: -1,
         onRepeat: function() { gsap.set(brandList, { x: 0 }); }
